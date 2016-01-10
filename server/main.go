@@ -37,8 +37,8 @@ var tiledefs = map[string]*TileDef{
 const MAPW = 256
 const MAPH = 256
 
-var tilew = 8
-var tileh = 8
+var tilew = 2
+var tileh = 2
 var tiles [MAPW * MAPH]Tile
 
 var heightmap [MAPW * MAPH]float32
@@ -119,14 +119,14 @@ func renderMap(surface *sdl.Surface, window *sdl.Window) {
 
 			tiles[x*MAPW].Def = tiledefs[tilenames[idx]]
 
-			if x >= ox && x < (ox+40) && y >= oy && y < (oy+25) {
+			if x >= ox && x < (ox+20) && y >= oy && y < (oy+12) {
 				ascii[(x - ox)] = byte(1 + idx)
 			}
-			if x == (ox+40) && y >= oy && y < (oy+25) {
+			if x == (ox+20) && y >= oy && y < (oy+12) {
 				window.UpdateSurface()
 				fmt.Println("transmitting…")
-				ioutil.WriteFile("/dev/tnt1", ascii, 0777)
-				sdl.Delay(1500)
+				ioutil.WriteFile("/dev/ttyUSB0", ascii, 0777)
+				sdl.Delay(200)
 			}
 
 			surface.FillRect(&rect, tiles[x*MAPW].Def.Color)
